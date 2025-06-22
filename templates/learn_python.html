@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduBot - Learn Python</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 1em;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.navbar ul li {
+    display: inline;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 1em;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+}
+
+.sidebar {
+    background-color: #f4f4f4;
+    width: 20%;
+    padding: 1em;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 0.5em;
+    cursor: pointer;
+}
+
+.sidebar ul li:hover {
+    background-color: #ddd;
+}
+
+.subtopics {
+    display: none;
+    margin-left: 20px;
+    list-style-type: none;
+}
+
+.subtopics li {
+    padding: 0.5em;
+    cursor: pointer;
+}
+
+.main-content {
+    flex: 1;
+    padding: 1em;
+    overflow-y: auto;
+}
+
+/* Existing styles */
+.complete-button {
+    background-color: #FF5722;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.completed {
+    background-color: #4CAF50; /* Color to indicate completion */
+    color: white;
+    cursor: default;
+}
+
+.main-content {
+    flex: 1;
+    padding: 1em;
+    margin-left: 2%;
+    overflow-y: auto; /* Ensure content can scroll */
+    height: calc(100vh - 60px); /* Adjusted to account for fixed navbar */
+}
+
+.complete-button:hover {
+    background-color: #E64A19;
+}
+
+.content {
+    display: none;
+    margin-top: 60px
+}
+.container .sidebar ul{
+    margin-top: 60px
+}
+.content.active {
+    display: block;
+}
+
+.nav-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.nav-button:hover {
+    background-color: #45a049;
+}
+
+.code-container {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    position: relative;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.copy-button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.copy-button:hover {
+    background-color: #007B9E;
+}
+
+.copy-message {
+    display: none;
+    color: #4CAF50;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+</style>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="#" onclick="window.history.back();">Home</a></li>
+            <li><a href="compiler.html" onclick="showContent('compiler')" target="_blank">Compiler</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="sidebar">
+            <ul id="topicsList">
+                <li onclick="showContent('python_home')">Python HOME</li>
+                <li onclick="showContent('python_intro')">Python Intro</li>
+                <li onclick="showContent('python_get_started')">Python Get Started</li>
+                <li onclick="showContent('python_syntax')">Python Syntax</li>
+                <li onclick="showContent('python_comments')">Python Comments</li>
+
+                <li onclick="toggleSubtopics('python_variables_subtopics')">
+                    Python Variables <span id="arrow-python_variables_subtopics" class="arrow">▶</span>
+                </li>
+                <ul id="python_variables_subtopics" class="subtopics">
+                <li onclick="showContent('python_variables')">python Variables</li>
+                <li onclick="showContent('python_variables_names')">python Variables names</li>
+                <li onclick="showContent('assign_multiple_values')">assign multiple values</li>
+                <li onclick="showContent('python_variables_output')">output Variables</li>
+                <li onclick="showContent('python_global_variables')">python globle Variables</li>
+                </ul>
+                <li onclick="showContent('python_data_types')">Python Data Types</li>
+                <li onclick="showContent('python_numbers')">Python Numbers</li>
+                <li onclick="showContent('python_casting')">Python Casting</li>
+
+                <li onclick="toggleSubtopics('python_strings_subtopics')">
+                    Python Strings <span id="arrow-python_strings_subtopics" class="arrow">▶</span>
+                </li>
+                <ul id="python_strings_subtopics" class="subtopics">
+                <li onclick="showContent('python_strings')">python_strings</li>
+                <li onclick="showContent('slicing_string')">slicing string</li>
+                <li onclick="showContent('modify_string')">modify string</li>
+                <li onclick="showContent('concatenate_string')">concatenate string</li>
+                <li onclick="showContent('format_string')">format string</li>
+                <li onclick="showContent('escape_characters')">escape characters</li>
+                <li onclick="showContent('string methods')">string methods</li>
+                </ul>
+                <li onclick="showContent('escape_charecters')">Escape Characters</li>
+                <li onclick="showContent('string_methods')">String Methods</li>
+                <li onclick="showContent('python_booleaans')">Python Booleans</li>
+                <li onclick="showContent('python_operators')">Python Operators</li>
+                <!-- Add more topics here -->
+            </ul>
+        </div>
+        <div class="main-content">
+            <div id="python_home" class="content">
+                <h2>Python HOME</h2>
+                <p>Welcome to the Python tutorial...</p>
+                <button class="nav-button" onclick="showContent('python_intro')">Next</button>
+            </div>
+            <div id="python_intro" class="content">
+                <h2>Python Intro</h2>
+                <h3>what is Python</h3>
+                <p>Python is a versatile and widely-used programming language known for its simplicity and readability, making it an excellent choice for beginners and experienced developers alike. Created by Guido van Rossum and first released in 1991, Python emphasizes code readability and allows developers to write clear and logical code for both small and large-scale projects.</p>
+                <h3>Key Features of Python</h3>
+                <ul>
+                    <li>Readability</li>
+                    <li>Interpreted Language</li>
+                    <li>Dynamically Typed</li>
+                    <li>High-Level Language</li>
+                    <li>Extensive Standard Library</li>
+                    <li>Community and Ecosystem</li>
+                </ul>
+                <div class="code-container">
+                    <pre>
+                        <code id="pythonIntroCode">
+# A simple introduction to Python code
+print("Hello, Python!")
+                        </code>
+                    </pre>
+                    <button class="copy-button" onclick="copyCode('pythonIntroCode')">Copy</button>
+                    <span id="copyMessage" class="copy-message">Copied!</span>
+                </div>
+                <p>This basic program demonstrates how easy it is to write and run Python code. The print function outputs text to the console.</p>
+                <h3>Applications of Python</h3>
+                <ul>
+                    <li>Web Development</li>
+                    <li>Data Science</li>
+                    <li>Machine Learning</li>
+                    <li>Automation and Scripting</li>
+                    <li>Game Development</li>
+                    <li>Embedded Systems</li>
+                </ul>
+                
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/hEgO047GxaQ?si=MbsvV9jnIfq8FRj5" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <br>
+                <button class="nav-button" onclick="showContent('python_home')">Previous</button>
+                <button class="nav-button" onclick="showContent('python_get_started')">Next</button>
+                <button class="complete-button" onclick="completeTopic('python_intro')">Completed</button>
+            </div>
+            <div id="python_get_started" class="content">
+                <h3>Installing Python on Windows</h3>
+                <p>
+                    <h4>Download the Installer:</h4>
+                        <ul>
+                            <li>Go to the official Python website: python.org.</li>
+                            <li>Navigate to the "Downloads" section and download the latest Python release for Windows.</li>
+                        </ul>
+                    <h4>Run the Installer:</h4>
+                        <ul>
+                            <li>Locate the downloaded file (python-<version>-amd64.exe or similar) and run it.</li>
+                            <li>Check the box that says "Add Python to PATH".</li>
+                            <li>Click on "Install Now".</li>
+                        </ul>
+                    <h4>Verify Installation:</h4>
+                        <ul>
+                            <li>Open Command Prompt by typing cmd in the search bar and pressing Enter.</li>
+                            <li>Type python --version and press Enter. You should see the Python version you installed.</li>
+                        </ul>
+                </p>
+                <h3>Installing Python on macOS</h3>
+                <p>
+                    <h4>Download the Installer:</h4>
+                        <ul>
+                            <li>Go to the official Python website: python.org.</li>
+                            <li>Navigate to the "Downloads" section and download the latest Python release for macOS.</li>
+                        </ul>
+                    <h4>Run the Installer:</h4>
+                        <ul>
+                            <li>Locate the downloaded .pkg file and run it.</li>
+                            <li>Follow the instructions in the installer.</li>
+                        </ul>
+                    <h4>Verify Installation:</h4>
+                        <ul>
+                            <li>Open Terminal by searching for it in Spotlight or from the Applications folder.</li>
+                            <li>Type python3 --version and press Enter. You should see the Python version you installed.</li>
+                        </ul>
+                </p>
+                <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/CScxy0294SE?si=MkosKF32TC7_Y9es" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <br>
+                <button class="nav-button" onclick="showContent('python_intro')">Previous</button>
+                <button class="nav-button" onclick="showContent('python_syntax')">Next</button>
+                <button class="complete-button" onclick="completeTopic('python_get_started')">Completed</button>
+            </div>
+            <!-- Add more content divs here -->
+            <div id="python_syntax" class="content">
+                <h3>Python Syntax</h3>
+                <p>
+                    <p>Python syntax refers to the set of rules that defines how a Python program is written and interpreted. Python's syntax is designed to be readable and straightforward.</p>
+                    <ul>
+                        Key Points:
+                        <li>Python uses indentation to define blocks of code.</li>
+                        <li>Statements end with a newline, not a semicolon.</li>
+                        <li>Variables are created when they are first assigned values.</li>
+                    </ul>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonsyntaxCode">
+            # Python syntax example
+            x = 10
+            y = 20
+            if x < y:
+                print("x is less than y")
+            else:
+                print("x is not less than y")
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonsyntaxCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <p>In this example, the if-else statement uses indentation to define the blocks of code. Python does not use braces { } to delimit blocks of code like some other languages.</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/A2NnIWCYnMQ?si=b6bGFFc947nlJJyl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <br>
+                    <button class="nav-button" onclick="showContent('python_get_started')">Previous</button>
+                    <button class="nav-button" onclick="showContent('python_comments')">Next</button>
+                    <button class="complete-button" onclick="completeTopic('python_syntax')">Completed</button>
+                    <button class="test-button" onclick="showTest()">Take Test</button>
+                </p>
+            </div>
+            
+            <div id="python_syntax_quiz" class="content" style="display: none;">
+                <h3>Test Your Knowledge: Python Syntax</h3>
+                <p>Answer the following questions to check your understanding of Python syntax:</p>
+                <ol>
+                    <li>
+                        Which of the following is the correct way to define a block of code in Python?
+                        <ul>
+                            <li><input type="radio" name="q1" value="a"> Use of braces { }</li>
+                            <li><input type="radio" name="q1" value="b"> Use of indentation</li>
+                            <li><input type="radio" name="q1" value="c"> End statements with a semicolon</li>
+                            <li><input type="radio" name="q1" value="d"> None of the above</li>
+                        </ul>
+                    </li>
+                    <li>
+                        What does the following code output?
+                        <pre>
+                            <code>
+            x = 5
+            y = 10
+            if x > y:
+                print("x is greater than y")
+            else:
+                print("x is less than or equal to y")
+                            </code>
+                        </pre>
+                        <ul>
+                            <li><input type="radio" name="q2" value="a"> x is greater than y</li>
+                            <li><input type="radio" name="q2" value="b"> x is less than or equal to y</li>
+                            <li><input type="radio" name="q2" value="c"> Syntax Error</li>
+                            <li><input type="radio" name="q2" value="d"> None of the above</li>
+                        </ul>
+                    </li>
+                    <li>
+                        True or False: Python requires semicolons at the end of every statement.
+                        <ul>
+                            <li><input type="radio" name="q3" value="true"> True</li>
+                            <li><input type="radio" name="q3" value="false"> False</li>
+                        </ul>
+                    </li>
+                </ol>
+                <button class="submit-button" onclick="checkAnswers()">Submit Answers</button>
+                <div id="quiz-result" class="quiz-result"></div>
+                <button class="nav-button" onclick="hideQuiz()">Next</button>
+            </div>
+            
+            <div id="python_comments" class="content">
+                <h3>Python Comments</h3>
+                <p>Comments in Python are used to explain code and make it more readable. They are ignored by the Python interpreter. There are two types of comments: single-line and multi-line comments.</p>
+                <h4>Single-Line Comments:</h4>
+                <p>Single-line comments start with a # symbol.</p>
+                <h4>Multi-Line Comments:</h4>
+                <p>Multi-line comments can be written using triple quotes ''' or """.</p>
+                <div class="code-container">
+                    <pre>
+                        <code id="pythonslCode">
+# This is a single-line comment
+"""
+This is a multi-line comment
+spanning multiple lines.
+"""
+def add(a, b):
+    # This function adds two numbers
+    return a + b
+result = add(5, 3)
+print("The result is:", result)
+                        
+                        </code>
+                    </pre>
+                    <button class="copy-button" onclick="copyCode('pythonslCode')">Copy</button>
+                    <span id="copyMessage" class="copy-message">Copied!</span>
+                </div>
+            <p>In this example, the comments explain what the code is doing. The single-line comment describes the purpose of the add function, and the multi-line comment provides a general description.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ECxZtt6n90E?si=ADeQPlzUCt3ICcZd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br>
+            <button class="nav-button" onclick="showContent('python_comments')">Previous</button>
+            <button class="nav-button" onclick="showContent('python_variables')">Next</button>
+            <button class="complete-button" onclick="completeTopic('python_comments')">Completed</button>
+            </div>
+            <div id="python_variables" class="content">
+                <h3>Python Variables</h3>
+                <p>Variables in Python are used to store information that can be referenced and manipulated in a program. Unlike other programming languages, Python variables do not need explicit declaration to reserve memory space. The declaration happens automatically when a value is assigned to a variable.</p>
+                <div class="code-container">
+                    <pre>
+                        <code id="pythonvarCode">
+x = 5
+y = "Hello, Python!"
+print(x)
+print(y)                        
+                        </code>
+                    </pre>
+                    <button class="copy-button" onclick="copyCode('pythonvarCode')">Copy</button>
+                    <span id="copyMessage" class="copy-message">Copied!</span>
+            </div>
+            
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/TqPzwenhMj0?si=-fWQX48-GXxxFAa_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br>
+            <button class="nav-button" onclick="showContent('python_comments')">Previous</button>
+            <button class="nav-button" onclick="showContent('python_variables_names')">Next</button>
+            <button class="complete-button" onclick="completeTopic('python_variables')">Completed</button>
+            </div>
+
+            <div id="python_variables_names" class="content">
+                <h3>variable names</h3>
+                <p>Variable names in Python must adhere to certain rules:</p>
+                <ul>
+                    <li>Must start with a letter or the underscore character.</li>
+                    <li>Cannot start with a number.</li>
+                    <li>Can only contain alpha-numeric characters and underscores (A-z, 0-9, and __).</li>
+                    <li>Are case-sensitive (e.g., myVar and myvar are different variables).</li>
+                </ul>
+                <div class="code-container">
+                    <pre>
+                        <code id="pythonvarnCode">
+# Valid variable names
+my_var = 10
+myVar = 20
+_my_var = 30
+myVar2 = 40
+print(my_var, myVar, _my_var, myVar2)
+
+# Invalid variable names (uncommenting these will cause errors)
+# 2myvar = 50
+# my-var = 60
+# my var = 70                       
+                        </code>
+                    </pre>
+                    <button class="copy-button" onclick="copyCode('pythonvarnCode')">Copy</button>
+                    <span id="copyMessage" class="copy-message">Copied!</span>
+    
+                </div>
+            
+                <p>The example shows valid variable names and some examples of invalid ones.</p>
+                
+                <button class="nav-button" onclick="showContent('python_variables')">Previous</button>
+                <button class="nav-button" onclick="showContent('assign_multiple_values')">Next</button>
+                <button class="complete-button" onclick="completeTopic('python_variables_names')">Completed</button>
+                </div>
+                <div id="assign_multiple_values" class="content">
+                    <h3>Assign Multiple Values</h3>
+                    <p>Python allows you to assign values to multiple variables in one line. This is particularly useful for initializing multiple variables quickly.</p>
+                
+                <div class="code-container">
+                    <pre>
+                        <code id="pythonmvCode">
+# Assigning multiple values to multiple variables
+a, b, c = 5, 10, 15
+print(a)
+print(b)
+print(c)
+                            
+# Assigning the same value to multiple variables
+x = y = z = 20
+                            
+print(x)
+print(y)
+print(z)                         
+                        </code>
+                    </pre>
+                    <button class="copy-button" onclick="copyCode('pythonmvCode')">Copy</button>
+                    <span id="copyMessage" class="copy-message">Copied!</span>
+                </div>
+                
+                <p>In the first example, the values 5, 10, and 15 are assigned to a, b, and c respectively. In the second example, the value 20 is assigned to x, y, and z.</p>
+                <button class="nav-button" onclick="showContent('python_variables_names')">Previous</button>
+                <button class="nav-button" onclick="showContent('python_variables_output')">Next</button>
+                <button class="complete-button" onclick="completeTopic('assign_multiple_values')">Completed</button>
+                </div>
+                <div id="python_variables_output" class="content">
+                    <h3>Output Variables</h3>
+                    <p>You can use the print function to output variables. You can combine text and variables using commas or the + operator.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonvoCode">
+# Outputting variables with the print function
+name = "Alice"
+age = 25
+# Using commas
+print("Name:", name)
+print("Age:", age)
+# Using the + operator (note the need for conversion to strings)
+print("Name: " + name)
+print("Age: " + str(age))
+# Using f-strings (available in Python 3.6+)
+print(f"Name: {name}")
+print(f"Age: {age}")                         
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonvoCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <p>This example shows different ways to print variables along with text.</p>
+                    <button class="nav-button" onclick="showContent('assign_multiple_values')">Previous</button>
+                    <button class="nav-button" onclick="showContent('python_global_variables')">Next</button>
+                    <button class="complete-button" onclick="completeTopic('python_variables_output')">Completed</button>
+                
+                </div>
+                <div id="python_global_variables" class="content">
+                    <h3>Global Variables</h3>
+                    <p>A global variable is one that is defined outside of a function and can be accessed inside any function within the same module. If you need to modify a global variable inside a function, you must declare it using the global keyword.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythongvCode">
+# Global variable example
+x = "global"
+def my_function():
+    global x
+    x = "local"
+    print("Inside function:", x)
+                                
+my_function()
+print("Outside function:", x)                     
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythongvCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <p>Here, x is defined as a global variable. Inside the function, the global keyword is used to indicate that we are referring to the global x variable. Without the global keyword, the assignment would create a local variable named x.</p>
+                    <p>By understanding these topics, you'll be well-equipped to work with variables in Python, including how to name, assign, and manipulate them effectively in your programs.</p>
+                    <button class="nav-button" onclick="showContent('python_variables_output')">Previous</button>
+                    <button class="nav-button" onclick="showContent('python_data_types')">Next</button>
+                    <button class="complete-button" onclick="completeTopic('python_global_variables')">Completed</button>
+                
+                </div>
+                <div id="python_data_types" class="content">
+                    <h3>Python Numbers</h3>
+                    <p>Python has several built-in data types, each serving different purposes. Here's an overview of the most common ones:</p>
+                    <h4>Numeric Types</h4>
+                    <ul>
+                        <li>int: Integer values.</li>
+                        <li>float: Floating-point numbers.</li>
+                        <li>complex: Complex numbers with a real and imaginary part.</li>
+                    </ul>
+                    <h4>Numeric Types Examples</h4>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythondtCode">
+#int:
+x = 10
+print(type(x))  # Output: class 'int'
+                                
+#float:
+y = 10.5
+print(type(y))  # Output: class 'float'
+                                
+#complex:
+z = 3 + 5j
+print(type(z))  # Output: class 'complex'                  
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythondtCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Sequence Types</h4>
+                    <ul>
+                        <li>list: Ordered, mutable collection of items.</li>
+                        <li>tuple: Ordered, immutable collection of items.</li>
+                        <li>range: Represents an immutable sequence of numbers.</li>
+                    </ul>
+                    <h4>Sequence Types Example</h4>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonstCode">
+#list:
+my_list = [1, 2, 3, "hello", 4.5]
+print(type(my_list))  # Output: class 'list'
+print(my_list[0])  # Output: 1
+                                
+#tuple:
+my_tuple = (1, 2, 3, "hello", 4.5)
+print(type(my_tuple))  # Output: class 'tuple'
+print(my_tuple[0])  # Output: 1
+                                
+range:
+my_range = range(1, 10)
+print(type(my_range))  # Output: class 'range'
+print(list(my_range))  # Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]                
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonstCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Text Type</h4>
+                    <ul>
+                    <li>str: String type for storing text.</li></ul>
+                    <h4>Text Type Example</h4>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonttCode">
+#str:
+my_str = "Hello, Python!"
+print(type(my_str))  # Output: class 'str'
+print(my_str[0])  # Output: H                
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonttCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Binary Type</h4>
+                    <ul>
+                        <li>bytes: Immutable sequences of bytes.</li>
+                        <li>bytearray: Mutable sequences of bytes.</li>
+                        <li>memoryview: Memory view objects.</li>
+                    </ul>
+                    <h4>Binary Type Example</h4>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonbtCode">
+#bytes:
+my_bytes = b"Hello"
+print(type(my_bytes))  # Output: class 'bytes'
+print(my_bytes[0])  # Output: 72 (ASCII value of 'H')
+                                
+#bytearray:
+my_bytearray = bytearray(5)
+print(type(my_bytearray))  # Output: class 'bytearray'
+print(my_bytearray)  # Output: bytearray(b'\x00\x00\x00\x00\x00')
+                                
+#memoryview:
+my_memoryview = memoryview(b"Hello")
+print(type(my_memoryview))  # Output: class 'memoryview'
+print(my_memoryview[0])  # Output: 72                
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonbtCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Mapping Type</h4>
+                    <ul>
+                        <li>dict: Dictionary, an unordered collection of key-value pairs.</li>
+                    </ul>
+                    <h4>Mapping Type Example</h4>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonmtCode">
+#dict:
+my_dict = {"name": "Alice", "age": 25}
+print(type(my_dict))  # Output: class 'dict'
+print(my_dict["name"])  # Output: Alice           
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonmtCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Set Type</h4>
+                    <ul>
+                        <li>set: Unordered collection of unique items.</li>
+                        <li>frozenset: Immutable version of a set.</li>
+                    </ul>
+                    <h4>Set Type Example</h4>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythontxCode">
+#set:
+my_set = {1, 2, 3, 4, 5}
+print(type(my_set))  # Output: class 'set'
+print(my_set)  # Output: {1, 2, 3, 4, 5}
+                                
+#frozenset:
+my_frozenset = frozenset([1, 2, 3, 4, 5])
+print(type(my_frozenset))  # Output: class 'frozenset'
+print(my_frozenset)  # Output: frozenset({1, 2, 3, 4, 5})            
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythontxCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Boolean Type</h4>
+                    <ul>
+                        <li>bool: Represents True or False values.</li>
+                    </ul>
+                    <h4>Boolean Type Example</h4>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonbxCode">
+#bool:
+is_true = True
+is_false = False
+print(type(is_true))  # Output: class 'bool'
+print(is_true)  # Output: True                                           
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonbxCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>None Type</h4>
+                    <ul><li>NoneType: Represents the absence of a value.</li></ul>
+                    <h4>None Type Example</h4>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonntCode">
+#NoneType:
+nothing = None
+print(type(nothing))  # Output: class 'NoneType' 
+print(nothing)  # Output: None                                                                          
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonntCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <p>By understanding these data types, you can effectively handle and manipulate data in Python, choosing the right type for the right situation.</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/gCCVsvgR2KU?si=w36-HHWyMlN7-E94" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <br>
+                    <button class="nav-button" onclick="showContent('python_global_variables')">Previous</button>
+                    <button class="nav-button" onclick="showContent('python_numbers')">Next</button>
+                    <button class="complete-button" onclick="completeTopic('python_data_types')">Completed</button>
+                </div>
+                <div id="python_numbers" class="content">
+                    <h3>Python Numbers</h3>
+                    <p>In Python, numeric data types are used to store numbers. There are three distinct numeric types: integers, floating-point numbers, and complex numbers.
+                        </p>
+                    <p>Integer (int)</p>
+                    <p>Integers are whole numbers, positive or negative, without decimals. They have unlimited precision in Python 3.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonpnCode">
+a = 10
+b = -5
+c = 0
+print(type(a))  # Output: class 'int'
+print(type(b))  # Output: class 'int'
+print(type(c))  # Output: class 'int'                                                                    
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonpnCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Floating-Point Number (float)</h4>
+                    <p>Floating-point numbers are real numbers with a fractional part. They are specified with a decimal point.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonfnCode">
+x = 10.5
+y = -7.8
+z = 0.0
+print(type(x))  # Output: class 'float'
+print(type(y))  # Output: class 'float'
+print(type(z))  # Output: class 'float'                                                                                                    
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonfnCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Complex Number (complex)</h4>
+                    <p>Complex numbers are numbers with a real part and an imaginary part. They are written with a "j" as the imaginary part.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythoncnCode">
+p = 3 + 5j
+q = -2j
+r = 7j
+print(type(p))  # Output: class 'complex'
+print(type(q))  # Output: class 'complex'
+print(type(r))  # Output: class 'complex'                                                                                                                                   
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythoncnCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <button class="nav-button" onclick="showContent('python_data_types')">Previous</button>
+                    <button class="nav-button" onclick="showContent('python_casting')">Next</button>
+                    <button class="complete-button" onclick="completeTopic('python_numbers')">Completed</button>
+                </div>
+                <div id="python_casting" class="content">
+                    <h3>Python Casting</h3>
+                    <p>Casting in Python is converting one data type into another. This is useful when you need to convert values between types, such as turning a string into an integer or a float into a string.</p>
+                    <h4>Integer Casting (int())</h4>
+                    <p>Casting to an integer discards the fractional part and rounds down to the nearest whole number.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonpcaCode">
+x = int(10.8)  # x will be 10
+y = int("15")  # y will be 15
+print(x)  # Output: 10
+print(y)  # Output: 15                                                                                                                                 
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonpcaCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Floating-Point Casting (float())</h4>
+                    <p>Casting to a float converts integers or strings into floating-point numbers.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonfpcCode">
+a = float(10)  # a will be 10.0
+b = float("20.5")  # b will be 20.5
+print(a)  # Output: 10.0
+print(b)  # Output: 20.5                                                                                                                             
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonfpcCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>String Casting (str())</h4>
+                    <p>Casting to a string converts numbers or other types into strings.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonscaCode">
+i = str(123)  # i will be "123"
+j = str(45.67)  # j will be "45.67"
+print(i)  # Output: 123
+print(j)  # Output: 45.67                                                                                                                                                      
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonscaCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Practical Examples of Casting</h4>
+                    <p>Combining different casts in practical situations:</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonpecCode">
+# Convert user input into an integer
+user_input = input("Enter a number: ")
+num = int(user_input)
+print("The number you entered is:", num)
+print("Type of the number:", type(num))
+                                
+# Convert a float result into an integer
+result = float(9.99)
+print("Float result:", result)  # Output: 9.99
+result = int(result)
+print("Converted to integer:", result)  # Output: 9                                                                                                                                                             
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonpecCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <p>In this example, input() returns a string, so we cast it to an integer using int(). Similarly, a floating-point result is cast to an integer, which truncates the decimal part.</p>
+                    <p>By understanding Python Numbers and Casting, you can handle various types of numerical operations and convert between data types as needed in your programs. This is especially useful when dealing with user input, mathematical computations, and data processing tasks.</p>
+                    <button class="nav-button" onclick="showContent('python_numbers')">Previous</button>
+                    <button class="nav-button" onclick="showContent('python_strings')">Next</button>
+                    <button class="complete-button" onclick="completeTopic('python_casting')">Completed</button>
+                </div>
+                <div id="python_strings" class="content">
+                    <h3>Python Strings</h3>
+                    <p>Strings in Python are sequences of characters enclosed in single quotes ('), double quotes ("), or triple quotes (''' or """). Strings are immutable, meaning once they are created, their contents cannot be changed.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonpstCode">
+single_quote_str = 'Hello'
+double_quote_str = "World"
+triple_quote_str = """This is a
+multiline string"""
+                                
+print(single_quote_str)  # Output: Hello
+print(double_quote_str)  # Output: World
+print(triple_quote_str)  # Output: This is a\nmultiline string                                                                                                                            
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonpstCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Slicing Strings</h4>
+                    <p>String slicing allows you to obtain a substring by specifying a range of indices. The syntax is string[start:end:step].</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonssCode">
+text = "Hello, World!"
+
+# Slicing to get 'Hello'
+print(text[0:5])  # Output: Hello
+                                
+# Slicing to get 'World'
+print(text[7:12])  # Output: World
+                                
+# Slicing with a step
+print(text[::2])  # Output: Hlo ol!
+                                                                                                                                                           
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonssCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Modify Strings</h4>
+                    <p>Since strings are immutable, modifying a string means creating a new string. This can be done using concatenation, slicing, and other methods.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonmsCode">
+text = "Hello, World!"
+
+# Converting to uppercase
+new_text = text.upper()
+print(new_text)  # Output: HELLO, WORLD!
+                                
+# Replacing characters
+new_text = text.replace("World", "Python")
+print(new_text)  # Output: Hello, Python!
+                                
+# Adding a substring
+new_text = text[:7] + "Beautiful " + text[7:]
+print(new_text)  # Output: Hello, Beautiful World!                                                                                                                         
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonmsCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Concatenate Strings</h4>
+                    <p>Concatenation is the process of joining two or more strings together using the + operator.</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythoncsCode">
+str1 = "Hello"
+str2 = "World"
+                                
+# Concatenating strings
+result = str1 + ", " + str2 + "!"
+print(result)  # Output: Hello, World!                                                                                                                           
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythoncsCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <h4>Format Strings</h4>
+                    <p>String formatting allows you to create strings by embedding values inside placeholders. Python provides several ways to format strings, including % formatting, str.format(), and f-strings (formatted string literals).</p>
+                <h4>Concatenate Strings</h4>
+                <p>Concatenation is the process of joining two or more strings together using the + operator.</p>
+                <div class="code-container">
+                    <pre>
+                        <code id="pythonfsCode">
+str1 = name = "Alice"
+age = 25
+
+# Using % formatting
+print("My name is %s and I am %d years old." % (name, age))
+# Using str.format()
+print("My name is {} and I am {} years old.".format(name, age))
+
+# Using f-strings (Python 3.6+)
+print(f"My name is {name} and I am {age} years old.")
+                        </code>
+                    </pre>
+                    <button class="copy-button" onclick="copyCode('pythonfsCode')">Copy</button>
+                    <span id="copyMessage" class="copy-message">Copied!</span>
+                </div>
+                <h4>Escape Characters</h4>
+                <p>Escape characters are special characters that allow you to include otherwise problematic characters in a string. They are prefixed with a backslash (\).</p>
+                <p>Common Escape Characters:</p>
+                <ul>
+                    <li>\' - Single quote</li>
+                    <li>\" - Double quote</li>
+                    <li>\\ - Backslash</li>
+                    <li>\n - Newline</li>
+                    <li>\t - Tab</li>
+                </ul>
+                <div class="code-container">
+                    <pre>
+                        <code id="pythonecCode">
+text = "He said, \"Hello, World!\""
+print(text)  # Output: He said, "Hello, World!"
+                            
+multiline_text = "First line\nSecond line"
+print(multiline_text)
+# Output:
+# First line
+# Second line 
+                        </code>
+                    </pre>
+                    <button class="copy-button" onclick="copyCode('pythonecCode')">Copy</button>
+                    <span id="copyMessage" class="copy-message">Copied!</span>
+                </div>
+                <button class="nav-button" onclick="showContent('python_numbers')">Previous</button>
+                    <button class="nav-button" onclick="showContent('python_strings')">Next</button>
+                    <button class="complete-button" onclick="completeTopic('python_numbers')">Completed</button>
+                
+                </div>
+                <div id="slicing_string" class="content">
+                    <h3>Slicing string</h3>
+                    <p>String slicing allows you to obtain a substring by specifying a range of indices. The syntax is string[start:end:step].</p>
+                    <div class="code-container">
+                        <pre>
+                            <code id="pythonssgCode">
+text = "Hello, World!"
+
+# Slicing to get 'Hello'
+print(text[0:5])  # Output: Hello
+                                
+# Slicing to get 'World'
+print(text[7:12])  # Output: World
+                                
+# Slicing with a step
+print(text[::2])  # Output: Hlo ol!
+                                
+                                
+                            </code>
+                        </pre>
+                        <button class="copy-button" onclick="copyCode('pythonssgCode')">Copy</button>
+                        <span id="copyMessage" class="copy-message">Copied!</span>
+                    </div>
+                    <button class="nav-button" onclick="showContent('python_strings')">Previous</button>
+                    <button class="nav-button" onclick="showContent('modify_string')">Next</button>
+                    <button class="complete-button" onclick="completeTopic('slicing_string')">Completed</button>
+                </div>
+
+
+                
+        <!-- Add more content divs here -->
+
+        <div>
+            <video id="videoElement" autoplay></video>
+            <p id="focus-time">Focused Time: 0 seconds</p>
+        </div>
+    </div>
+    <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+    <script src="https://mediafiles.botpress.cloud/a6fd7c9e-c78b-4ee2-b0e0-e831e08e2328/webchat/config.js" defer></script>
+    <script src="script.js"></script>
+</body>
+<script>
+
+let video = document.querySelector('#videoElement');
+let focusedTime = 0;
+let isFocused = false;
+
+// Request camera permission
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        console.log("Camera access granted");
+        video.srcObject = stream;
+        video.play();
+    })
+    .catch(err => {
+        console.error("Error accessing the webcam: ", err);
+    });
+
+// Simulated face detection (replace with actual detection logic)
+setInterval(() => {
+    if (Math.random() > 0.5) {
+        isFocused = true;
+        focusedTime++;
+    } else {
+        isFocused = false;
+    }
+    document.getElementById('focus-time').innerText = `Focused Time: ${focusedTime} seconds`;
+}, 1000);
+
+// Update server on page unload
+window.addEventListener('beforeunload', () => {
+    console.log("Sending focus time to server:", focusedTime);
+    fetch('/update_focus_time', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ time_spent: focusedTime }),
+    });
+});
+
+
+
+
+
+
+
+function showTest() {
+    document.getElementById("python_syntax_quiz").style.display = "block";
+}
+
+function hideQuiz() {
+    document.getElementById("python_syntax_quiz").style.display = "none";
+}
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    showContent('python_home');
+});
+
+function showContent(contentId) {
+    let contents = document.querySelectorAll('.content');
+    contents.forEach((content) => {
+        content.classList.remove('active');
+    });
+    document.getElementById(contentId).classList.add('active');
+}
+
+function completeTopic(topic) {
+    const username = prompt("Enter your username:");
+    if (username) {
+        fetch('/complete_topic', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: username, topic: topic })
+        }).then(response => response.json())
+          .then(data => {
+              if (data.status === 'success') {
+                  const button = document.querySelector(`.complete-button[data-topic="${topic}"]`);
+                  if (button) {
+                      button.classList.add('completed');
+                      button.innerText = 'Completed';
+                  }
+              } else {
+                  alert('Failed to mark topic as completed: ' + data.message);
+              }
+          }).catch(error => {
+              alert('Error: ' + error);
+          });
+    }
+}
+
+function toggleSubtopics(subtopicsId) {
+    let subtopics = document.getElementById(subtopicsId);
+    let arrow = document.getElementById(`arrow-${subtopicsId}`);
+    if (subtopics.style.display === 'block') {
+        subtopics.style.display = 'none';
+        arrow.classList.remove('expanded');
+    } else {
+        subtopics.style.display = 'block';
+        arrow.classList.add('expanded');
+    }
+}
+
+
+function copyCode(codeId) {
+    let code = document.getElementById(codeId).innerText;
+    navigator.clipboard.writeText(code).then(() => {
+        let copyMessage = document.getElementById('copyMessage');
+        copyMessage.style.display = 'inline';
+        setTimeout(() => {
+            copyMessage.style.display = 'none';
+        }, 2000);
+    }, (err) => {
+        alert('Failed to copy code: ', err);
+    });
+}
+
+function navigateToCompiler() {
+    window.location.href = "{{ url_for('show_compiler') }}";
+}
+
+
+</script>
+</html>

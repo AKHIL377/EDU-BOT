@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduBot</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: #000000;
+            border-bottom: 1px solid #3c6e71;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar .logo img {
+            height: 50px;
+        }
+
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #ffffff;
+            position: relative; /* For positioning the pseudo-element */
+        }
+
+        .navbar .btn.login {
+            background-color: #3c6e71;
+        }
+
+        .navbar .btn.signup {
+            background-color: #284b63;
+        }
+
+        .navbar .btn.theme-toggle {
+            background-color: #888888;
+        }
+
+        /* Hover effect for all buttons */
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Display button name on hover */
+        .btn::after {
+            content: attr(class);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 3px;
+            white-space: nowrap;
+            font-size: 0.8em;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none; /* Makes the tooltip unclickable */
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+        }
+
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            min-width: 160px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+            
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Header styles */
+        .header {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #ffffff;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #3c6e71;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #284b63;
+            margin: 20px 0;
+        }
+
+        .header .btn.learn-python {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: #3c6e71;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Dark theme */
+        body.dark {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        body.dark .navbar {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        body.dark .navbar .btn {
+            color: #000000;
+        }
+
+        body.dark .navbar .btn.theme-toggle {
+            background-color: #cccccc;
+        }
+
+        body.dark .header {
+            background-color: #444444;
+        }
+
+        body.dark .header h1, body.dark .header p {
+            color: #ffffff;
+        }
+
+        body.dark .header .btn.learn-python {
+            background-color: #555555;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <img src="/static/logo.jpg" alt="EduBot Logo">
+            </div>
+            <div class="nav-buttons">
+                <div class="dropdown">
+                    <button class="btn">Theme</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="changeTheme('white')">White</a>
+                        <a href="#" onclick="changeTheme('black')">Dark</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="{{ url_for('login') }}"><button class="btn login">Log In</button></a>
+            <a href="{{ url_for('signup') }}"><button class="btn signup">Sign Up</button></a>
+        </div>
+    </nav>
+    <header class="header">
+        <h1>Welcome to EduBot</h1>
+        <p>Your ultimate platform to learn Python.</p>
+        <a href="learn_python.html" class="btn learn-python">Learn Python</a>
+        <br>
+        <p>Your ultimate platform to learn Python training questions.</p>
+        <a href="{{ url_for('questions') }}" class="btn learn-python" target="_blank">Learn Python training questions</a>
+    </header>
+
+    <!-- Modal structure -->
+    <div id="operators-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Python Operators</h2>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        function changeTheme(theme) {
+            if (theme === 'black') {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('operators-modal');
+            const modalContent = document.getElementById('modal-content');
+            const operatorsLink = document.getElementById('operators-link');
+            const closeModal = document.getElementsByClassName('close')[0];
+
+            operatorsLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                fetch('https://www.geeksforgeeks.org/python-operators/?ref=ml_lbp')
+                    .then(response => response.text())
+                    .then(data => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(data, 'text/html');
+                        const content = doc.querySelector('.content');
+                        modalContent.innerHTML = content ? content.innerHTML : 'Content not available';
+                        modal.style.display = 'block';
+                    })
+                    .catch(error => console.error('Error fetching content:', error));
+            });
+
+            closeModal.onclick = function() {
+                modal.style.display = 'none';
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

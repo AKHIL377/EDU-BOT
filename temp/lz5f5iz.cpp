@@ -1,0 +1,3 @@
+voidmain(){
+  cout<<"hello world";
+}
