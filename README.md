@@ -1,5 +1,7 @@
 **EDU BOT - A New Approach to Learning Python Effectively**
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **EDU BOT** is a dynamic and user-friendly web platform designed to help users learn Python programming in an engaging way. It includes a built-in compiler, topic-based learning modules, an AI chatbot for Python-related queries, YouTube video recommendations, a personalized progress tracking system, and an innovative face-tracking timer for effective time monitoring.
 
 ## 🚀 Features
